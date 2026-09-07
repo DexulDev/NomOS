@@ -9,14 +9,10 @@ public class NomOS
     private String nombre;
     private String version;
     
-    public NomOS(String nombre, String version){
+    public NomOS(){
         this.nombre = "NomOS";
         this.version = "CP.1.1";
-    }
-    
-    public void iniciar(){
-        //llamar a kernel
-    }
+    }    
     
     public String getNombre(){
         return nombre;
