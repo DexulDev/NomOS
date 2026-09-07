@@ -2,7 +2,8 @@ import java.util.Scanner;
 
 public class Main{
     static Scanner sc = new Scanner(System.in);
-public static void main(String[] args){
+
+    public static void main(String[] args){
         Kernel k = new Kernel();
         while(true){
             clear();
@@ -50,6 +51,8 @@ public static void main(String[] args){
                                 c = sc.nextLine();
                             }
                         }
+                        System.out.println(k.bienvenido());
+                        sc.nextLine();
                     }else{
                         System.out.println(k.crearUsuario());
                         k.setUsuario(sc.nextLine());

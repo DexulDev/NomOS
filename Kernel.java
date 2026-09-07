@@ -187,6 +187,19 @@ public class Kernel
         );
     }
 
+    public String bienvenido(){
+        return(
+        "||=============================||\n"+
+        "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
+        "||                             ||\n" +
+        "||  Inicio de sesion exitoso!  ||\n" +
+        "||                             ||\n" +
+        "||  Ingrese cualquier tecla... ||\n" +
+        "||                             ||\n" +
+        "||=============================||\n" 
+        );
+    }
+
     private void clear(){
         for(int i = 0;i<200;i++){
             System.out.println();
