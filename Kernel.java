@@ -84,7 +84,6 @@ public class Kernel
     }
 
     public String inicioSesion(){
-        clear();
         return(
             "||=============================||\n"+
             "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
@@ -106,7 +105,6 @@ public class Kernel
     }
 
     public String crearUsuario(){
-        clear();
         return(
             "||=============================||\n"+
             "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
@@ -124,7 +122,6 @@ public class Kernel
     }
 
     public String crearContra(){
-        clear();
         sesion = true;
         return(
             "||=============================||\n"+
@@ -200,9 +197,4 @@ public class Kernel
         );
     }
 
-    private void clear(){
-        for(int i = 0;i<200;i++){
-            System.out.println();
-        }
-    }
 }

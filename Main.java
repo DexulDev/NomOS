@@ -51,6 +51,7 @@ public class Main{
                                 c = sc.nextLine();
                             }
                         }
+                        clear();
                         System.out.println(k.bienvenido());
                         sc.nextLine();
                     }else{
