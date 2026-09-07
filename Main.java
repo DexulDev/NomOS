@@ -1,3 +1,9 @@
+
+/**
+ *
+ * @author Club Penguin
+ * @version 0.1
+ */
 import java.util.Scanner;
 
 public class Main{
