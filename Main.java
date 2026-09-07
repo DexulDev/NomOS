@@ -44,6 +44,7 @@ public class Main{
             switch(sc.nextLine()){
                 case "1":
                     if(k.getSesion()){
+                        clear();
                         System.out.println(k.inicioSesion());
                         c = sc.nextLine();
                         if (!k.validar(c)){
@@ -53,6 +54,7 @@ public class Main{
                                 c = sc.nextLine();
                             }
                         }
+                        clear();
                         System.out.println(k.bienvenido());
                         sc.nextLine();
                     }else{
@@ -68,6 +70,8 @@ public class Main{
                     return;
                 default:
                     System.out.println("Opción incorrecta...");
+                    System.out.println("Ingrese cualquier tecla...");
+                    sc.nextLine();
                     break;
             }
         } 
