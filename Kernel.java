@@ -10,6 +10,7 @@ public class Kernel
     private boolean sesion;
     private String usuario;
     private String contra;
+    //TODO: hacer una pantalla que renderize el logo con un timer y ya gg
 
     public Kernel(){
         sistema = new NomOS();
