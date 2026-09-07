@@ -24,6 +24,8 @@ public class Main{
                 default:
                     clear();
                     System.out.println("Opción incorrecta...");
+                    System.out.println("Digite cualquier tecla...");
+                    sc.nextLine();
             }    
         }
     }
@@ -51,12 +53,13 @@ public class Main{
                                 c = sc.nextLine();
                             }
                         }
-                        clear();
                         System.out.println(k.bienvenido());
                         sc.nextLine();
                     }else{
+                        clear();
                         System.out.println(k.crearUsuario());
                         k.setUsuario(sc.nextLine());
+                        clear();
                         System.out.println(k.crearContra());
                         k.setContra(sc.nextLine());
                     }
