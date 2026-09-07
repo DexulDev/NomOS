@@ -69,6 +69,7 @@ public class Main{
                 case "d":
                     return;
                 default:
+                    clear();
                     System.out.println("Opción incorrecta...");
                     System.out.println("Ingrese cualquier tecla...");
                     sc.nextLine();
