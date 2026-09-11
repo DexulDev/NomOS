@@ -6,18 +6,17 @@
  */
 public class Proceso
 {
-    private String id;
-    private String nombre;
-    private String estado;
-    private long tiempoCPU;
-    private long direccionPrograma;
-    private long limiteMemoria;
+    private String id, nombre, estado, usuario;
+    private int prioridad;
+    private long tiempoCPU = 0; 
+    private long direccionPrograma, limiteMemoria;
     
-    public Proceso(String id, String nombre, String estado, long tiempoCPU, long direccionPrograma, long limiteMemoria){
+    public Proceso(String id, String nombre, String estado, String usuario, int prioridad, long direccionPrograma, long limiteMemoria){
         this.id = id;
         this.nombre = nombre;
         this.estado = estado;
-        this.tiempoCPU = tiempoCPU;
+        this.usuario = usuario;
+        this.prioridad = prioridad;
         this.direccionPrograma = direccionPrograma;
         this.limiteMemoria = limiteMemoria;
     }
@@ -48,6 +47,14 @@ public class Proceso
         return limiteMemoria;
     }
     
+    public String getUsuario(){
+        return usuario;
+    }
+    
+    public int getPriodidad(){
+        return prioridad;
+    }
+    
     //setters
     
     public void setId(String id){
@@ -62,10 +69,6 @@ public class Proceso
         this.estado = estado;
     }
     
-    public void setTiempoCPU(long tiempoCPU){
-        this.tiempoCPU = tiempoCPU;
-    }
-    
     public void setDireccionPrograma(long direccionPrograma){
         this.direccionPrograma = direccionPrograma;
     }
@@ -74,7 +77,20 @@ public class Proceso
         this.limiteMemoria = limiteMemoria;
     }
     
+    public void setUsuario(String usuario){
+        this.usuario = usuario;
+    }
+    
+    public void setPrioridad(int prioridad){
+        this.prioridad = prioridad;
+    }
+    
     public String toString(){
-        return "";
+        return id + "  " + 
+        usuario + "    " + 
+        prioridad + "  " + 
+        tiempoCPU + "     " + 
+        limiteMemoria + "  " + 
+        direccionPrograma;
     }
 }

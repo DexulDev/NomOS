@@ -10,7 +10,6 @@ public class Kernel
     private boolean sesion;
     private String usuario;
     private String contra;
-    //TODO: hacer una pantalla que renderize el logo con un timer y ya gg
 
     public Kernel(){
         sistema = new NomOS();
@@ -34,7 +33,7 @@ public class Kernel
     public void setContra(String contra){
         this.contra = contra;
     }
-
+    
     public String getSistemaNombre(){
         return sistema.getNombre();
     }
@@ -197,5 +196,12 @@ public class Kernel
         "||=============================||\n" 
         );
     }
-
+    
+    public String[] getLogo(){
+        return sistema.getLogo();
+    }
+    
+    public String getTerminal(){
+        return sesion ? "\n[" + usuario + "@nomOS~]$ " :  "\n- ";
+    }
 }

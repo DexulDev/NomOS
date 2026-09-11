@@ -11,9 +11,13 @@ public class Main{
 
     public static void main(String[] args){
         Kernel k = new Kernel();
+        pantallaLogo(k);
+        System.out.print("Presione enter para continuar.");
+        sc.nextLine();
         while(true){
             clear();
             System.out.println(k.menu());
+            terminal(k);
             switch(sc.nextLine()){
                 case "1":
                     login(k);
@@ -30,7 +34,8 @@ public class Main{
                 default:
                     clear();
                     System.out.println("Opción incorrecta...");
-                    System.out.println("Digite cualquier tecla...");
+                    System.out.println("Digite enter...");
+                    terminal(k);
                     sc.nextLine();
             }    
         }
@@ -47,28 +52,34 @@ public class Main{
         while(true){
             clear();
             System.out.println(k.login());
+            terminal(k);
             switch(sc.nextLine()){
                 case "1":
                     if(k.getSesion()){
                         clear();
                         System.out.println(k.inicioSesion());
+                        terminal(k);
                         c = sc.nextLine();
                         if (!k.validar(c)){
                             while(!k.validar(c)){
                                 clear();
                                 System.out.print("Ups... Intenta otra vez: ");
+                                terminal(k);
                                 c = sc.nextLine();
                             }
                         }
                         clear();
                         System.out.println(k.bienvenido());
+                        terminal(k);
                         sc.nextLine();
                     }else{
                         clear();
                         System.out.println(k.crearUsuario());
+                        terminal(k);
                         k.setUsuario(sc.nextLine());
                         clear();
                         System.out.println(k.crearContra());
+                        terminal(k);
                         k.setContra(sc.nextLine());
                     }
                     break;
@@ -77,7 +88,8 @@ public class Main{
                 default:
                     clear();
                     System.out.println("Opción incorrecta...");
-                    System.out.println("Ingrese cualquier tecla...");
+                    System.out.println("Ingrese enter...");
+                    terminal(k);
                     sc.nextLine();
                     break;
             }
@@ -87,14 +99,27 @@ public class Main{
     private static void BIOS(Kernel k){
         clear();
         System.out.println(k.bios());
-        System.out.println("Ingrese cualquier tecla para continuar...");
+        System.out.println("Ingrese enter para continuar...");
+        terminal(k);
         sc.nextLine();
     }
 
     private static void about(Kernel k){
         clear();
         System.out.println(k.about());
-        System.out.println("Ingrese cualquier tecla para continuar...");
+        System.out.println("Ingrese enter para continuar...");
+        terminal(k);
         sc.nextLine();
+    }
+    
+    private static void pantallaLogo(Kernel k){
+        for(int i = 0;i<k.getLogo().length;i++){
+            System.out.println(k.getLogo()[i]);
+        }
+        System.out.println("\n");
+    }
+    
+    private static void terminal(Kernel k){
+        System.out.print(k.getTerminal());
     }
 }

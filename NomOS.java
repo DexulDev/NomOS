@@ -9,8 +9,8 @@ public class NomOS
     private String nombre;
     private String version;
     private String[] logo = {
-        " _   _                   _____ _____  ",
-        "| \\ | |                 |  _  /  ___| ",
+        " _   _                 _____ _____  ",
+        "| \\ | |               |  _  /  ___| ",
         "|  \\| | ___  _ __ ___ | | | \\ `--.   ",
         "| . ` |/ _ \\| '_ ` _ \\| | | |`--. \\   ",
         "| |\\  | (_) | | | | | \\ \\_/ /\\__/ /   ",
@@ -43,5 +43,9 @@ public class NomOS
     
     public void setVersion(String version){
         this.version = version;
+    }
+
+    public String[] getLogo(){
+        return logo;
     }
 }
