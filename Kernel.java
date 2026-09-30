@@ -203,20 +203,24 @@ public class Kernel
     }
 
     //Apartado de procesos
-
-    public void planificador(){
-        //crear 5 procesos con rafaga aleatoria y hacer round robin
-        
-        Proceso[] colaProcesos = new Proceso[5];
+    
+    //Hacer dinamico el quantum
+    //Implementar Thread
+    //Metodo sincronizar
+    
+    public void planificador(int cantidad, String[] nombres){
+        Proceso[] colaProcesos = new Proceso[cantidad];
+        for(int i = 0;i<cantidad; i++){
+            colaProcesos[i] = new Proceso(usuario, (int)(Math.random()*300)+ 1, (int)(Math.random()*1500)+ 1);
+            colaProcesos[i].setNombre(nombres[i]);
+            colaProcesos[i].setPID(Integer.toString(i+1));
+            colaProcesos[i].setUsuario(usuario);
+            colaProcesos[i].getHilo().setTiempoRafaga(quantum);
+        }
     }
 
-    private Proceso[] insertarProceso(Proceso[] colaProcesos){
-        //pendiente
-        Proceso[] nuevaCola = new Proceso[colaProcesos.length];
-        return nuevaCola;
-    }
-
-    private Proceso[] eliminarProceso(Proceso[] colaProcesos){
+    private Proceso[] tratarProceso(Proceso[] colaProcesos, int i){
+        colaProcesos[i].getHilo().restarRafaga(quantum);
         Proceso[] nuevaCola = new Proceso[colaProcesos.length];
         return nuevaCola;
     }

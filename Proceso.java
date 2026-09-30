@@ -7,19 +7,16 @@
 public class Proceso
 {
     private String pid, nombre, estado, usuario;
-    private int prioridad;
-    private long tiempoCPU = 0; 
     private long direccionPrograma, limiteMemoria;
-    private int rafaga
-    public Proceso(String pid, String nombre, String estado, String usuario, int prioridad, long direccionPrograma, long limiteMemoria){
-        this.pid = pid;
-        this.nombre = nombre;
-        this.estado = estado;
-        this.usuario = usuario;
-        this.prioridad = prioridad;
+    private int tiempoCPU;
+    private Hilo hilo;
+    
+    public Proceso(String usuario, long direccionPrograma, long limiteMemoria){
+        this.estado = "Listo";
         this.direccionPrograma = direccionPrograma;
-        this.limiteMemoria = limiteMemoria;
-        rafaga = (int)((Math.random()*100)+ 1);
+        this.limiteMemoria = limiteMemoria; //hardcodear en el futuro
+        tiempoCPU = (int)((Math.random()*200)+ 1); //rafaga
+        hilo = new Hilo(nombre);
     }
     
     //getters
@@ -36,10 +33,6 @@ public class Proceso
         return estado;
     }
     
-    public long getTiempoCPU(){
-        return tiempoCPU;
-    }
-    
     public long getDireccionPrograma(){
         return direccionPrograma;
     }
@@ -51,9 +44,9 @@ public class Proceso
     public String getUsuario(){
         return usuario;
     }
-    
-    public int getPriodidad(){
-        return prioridad;
+
+    public int getTiempoCPU(){
+        return tiempoCPU;
     }
 
     public Hilo getHilo(){
@@ -62,7 +55,7 @@ public class Proceso
     
     //setters
     
-    public void setPid(String pid){
+    public void setPID(String pid){
         this.pid = pid;
     }
     
@@ -85,9 +78,9 @@ public class Proceso
     public void setUsuario(String usuario){
         this.usuario = usuario;
     }
-    
-    public void setPrioridad(int prioridad){
-        this.prioridad = prioridad;
+
+    public void setTiempoCPU(int tiempoCPU){
+        this.tiempoCPU = tiempoCPU;
     }
 
     public void setHilo(Hilo hilo){
@@ -97,7 +90,6 @@ public class Proceso
     public String toString(){
         return pid + "  " + 
         usuario + "    " + 
-        prioridad + "  " + 
         tiempoCPU + "     " + 
         limiteMemoria + "  " + 
         direccionPrograma;

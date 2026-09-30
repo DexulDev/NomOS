@@ -95,12 +95,29 @@ public class Main{
     }
 
     private static void iniciado(Kernel k){
+        String r = "";
+        int cantidadProcesos = 0;
         while(true){
+            clear();
             System.out.println(k.iniciado());
             terminal(k);
             switch(sc.nextLine()){
                 case "1":
-                    k.planificador();
+                    while(!r.equals("n") && !r.equals("N")){
+                        cantidadProcesos++;
+                        clear();
+                        System.out.println("Procesos actuales: " + cantidadProcesos + "\nQuiere crear otro proceso? (s/n)");
+                        terminal(k);
+                        r = sc.nextLine();
+                    }
+                    String[] nombres = new String[cantidadProcesos];
+                    for(int i = 0;i<cantidadProcesos;i++){
+                        clear();
+                        System.out.print("Digite el nombre del proceso " + (i+1) + ": ");
+                        terminal(k);
+                        nombres[i] = sc.nextLine();
+                    }
+                    k.planificador(cantidadProcesos, nombres);
                     break;
                 case "s":
                     return;
