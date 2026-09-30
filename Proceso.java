@@ -6,25 +6,26 @@
  */
 public class Proceso
 {
-    private String id, nombre, estado, usuario;
+    private String pid, nombre, estado, usuario;
     private int prioridad;
     private long tiempoCPU = 0; 
     private long direccionPrograma, limiteMemoria;
-    
-    public Proceso(String id, String nombre, String estado, String usuario, int prioridad, long direccionPrograma, long limiteMemoria){
-        this.id = id;
+    private int rafaga
+    public Proceso(String pid, String nombre, String estado, String usuario, int prioridad, long direccionPrograma, long limiteMemoria){
+        this.pid = pid;
         this.nombre = nombre;
         this.estado = estado;
         this.usuario = usuario;
         this.prioridad = prioridad;
         this.direccionPrograma = direccionPrograma;
         this.limiteMemoria = limiteMemoria;
+        rafaga = (int)((Math.random()*100)+ 1);
     }
     
     //getters
     
-    public String getId(){
-        return id;
+    public String getPid(){
+        return pid;
     }
     
     public String getNombre(){
@@ -54,11 +55,15 @@ public class Proceso
     public int getPriodidad(){
         return prioridad;
     }
+
+    public Hilo getHilo(){
+        return hilo;
+    }
     
     //setters
     
-    public void setId(String id){
-        this.id = id;
+    public void setPid(String pid){
+        this.pid = pid;
     }
     
     public void setNombre(String nombre){
@@ -84,9 +89,13 @@ public class Proceso
     public void setPrioridad(int prioridad){
         this.prioridad = prioridad;
     }
+
+    public void setHilo(Hilo hilo){
+        this.hilo = hilo;
+    }
     
     public String toString(){
-        return id + "  " + 
+        return pid + "  " + 
         usuario + "    " + 
         prioridad + "  " + 
         tiempoCPU + "     " + 

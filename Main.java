@@ -69,9 +69,7 @@ public class Main{
                             }
                         }
                         clear();
-                        System.out.println(k.bienvenido());
-                        terminal(k);
-                        sc.nextLine();
+                        iniciado(k);
                     }else{
                         clear();
                         System.out.println(k.crearUsuario());
@@ -95,6 +93,25 @@ public class Main{
             }
         } 
     }
+
+    private static void iniciado(Kernel k){
+        while(true){
+            System.out.println(k.iniciado());
+            terminal(k);
+            switch(sc.nextLine()){
+                case "1":
+                    k.planificador();
+                    break;
+                case "s":
+                    return;
+                default:
+                    System.out.println("Ingrese una opción valida...\nDigite enter.");
+                    sc.nextLine();
+                    clear();
+                    break;
+            }
+        }
+    } 
     
     private static void BIOS(Kernel k){
         clear();

@@ -1,4 +1,6 @@
 
+
+
 /**
  *
  * @author Club Penguin
@@ -10,6 +12,7 @@ public class Kernel
     private boolean sesion;
     private String usuario;
     private String contra;
+    private final int quantum = 30;
 
     public Kernel(){
         sistema = new NomOS();
@@ -184,19 +187,42 @@ public class Kernel
         );
     }
 
-    public String bienvenido(){
+    public String iniciado(){
         return(
         "||=============================||\n"+
         "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
         "||                             ||\n" +
         "||  Inicio de sesion exitoso!  ||\n" +
         "||                             ||\n" +
-        "||  Ingrese cualquier tecla... ||\n" +
+        "||  1) Generar 5 procesos.     ||\n" +
+        "||                             ||\n" +
+        "||  s) Salir                   ||\n" +
         "||                             ||\n" +
         "||=============================||\n" 
         );
     }
-    
+
+    //Apartado de procesos
+
+    public void planificador(){
+        //crear 5 procesos con rafaga aleatoria y hacer round robin
+        
+        Proceso[] colaProcesos = new Proceso[5];
+    }
+
+    private Proceso[] insertarProceso(Proceso[] colaProcesos){
+        //pendiente
+        Proceso[] nuevaCola = new Proceso[colaProcesos.length];
+        return nuevaCola;
+    }
+
+    private Proceso[] eliminarProceso(Proceso[] colaProcesos){
+        Proceso[] nuevaCola = new Proceso[colaProcesos.length];
+        return nuevaCola;
+    }
+
+    //Resto
+
     public String[] getLogo(){
         return sistema.getLogo();
     }
