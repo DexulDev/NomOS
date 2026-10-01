@@ -1,6 +1,3 @@
-
-
-
 /**
  *
  * @author Club Penguin
@@ -12,7 +9,7 @@ public class Kernel
     private boolean sesion;
     private String usuario;
     private String contra;
-    private final int quantum = 30;
+    private int quantum;
 
     public Kernel(){
         sistema = new NomOS();
@@ -72,7 +69,7 @@ public class Kernel
         "||                             ||\n" +
         "||                             ||\n" +
         "||" + opcion(sesion) + "||\n" +
-        "||  (d) Regresar               ||\n" +
+        "||  (s) Regresar               ||\n" +
         "||                             ||\n" +
         "||                             ||\n" +
         "||                             ||\n" +
@@ -194,7 +191,7 @@ public class Kernel
         "||                             ||\n" +
         "||  Inicio de sesion exitoso!  ||\n" +
         "||                             ||\n" +
-        "||  1) Generar 5 procesos.     ||\n" +
+        "||  1) Generar procesos.       ||\n" +
         "||                             ||\n" +
         "||  s) Salir                   ||\n" +
         "||                             ||\n" +
@@ -204,25 +201,91 @@ public class Kernel
 
     //Apartado de procesos
     
-    //Hacer dinamico el quantum
-    //Implementar Thread
-    //Metodo sincronizar
-    
-    public void planificador(int cantidad, String[] nombres){
-        Proceso[] colaProcesos = new Proceso[cantidad];
-        for(int i = 0;i<cantidad; i++){
-            colaProcesos[i] = new Proceso(usuario, (int)(Math.random()*300)+ 1, (int)(Math.random()*1500)+ 1);
-            colaProcesos[i].setNombre(nombres[i]);
-            colaProcesos[i].setPID(Integer.toString(i+1));
-            colaProcesos[i].setUsuario(usuario);
-            colaProcesos[i].getHilo().setTiempoRafaga(quantum);
+    private boolean sincronizar(Proceso[] colaProcesos, int i){
+        if(colaProcesos[i].getEstado().equals("Creado")) colaProcesos[i].setEstado("Listo");
+        if(!colaProcesos[i].tieneTrabajo()){
+            colaProcesos[i].setEstado("Terminado");
+            return false;
         }
+        return colaProcesos[i].getEstado().equals("Listo");
     }
 
-    private Proceso[] tratarProceso(Proceso[] colaProcesos, int i){
-        colaProcesos[i].getHilo().restarRafaga(quantum);
-        Proceso[] nuevaCola = new Proceso[colaProcesos.length];
-        return nuevaCola;
+    public String planificador(int cantidad, String[] nombres){
+        Proceso[] colaProcesos = new Proceso[cantidad];
+        Thread[] colaHilos = new Thread[cantidad];
+        String salida = "PID  Usuario    CPU     Memoria  Direccion\n";
+        int totalRafaga = 0;
+        int totalEspera = 0;
+
+        for(int i = 0;i<cantidad; i++){
+            colaProcesos[i] = new Proceso(usuario, (int)(Math.random()*300)+ 1, (int)(Math.random()*1500)+ 1, nombres[i]);
+            colaProcesos[i].setPID(Integer.toString(i*10+1));
+            colaProcesos[i].setUsuario(usuario);
+            colaProcesos[i].getHilo().setTiempoRafaga(colaProcesos[i].getTiempoCPU());
+            totalRafaga += colaProcesos[i].getTiempoCPU();
+            salida += colaProcesos[i].toString() + "\n";
+        }
+
+        quantum = totalRafaga/cantidad;
+        if(quantum<1) quantum = 1;
+        salida += "\nQuantum dinámico: " + quantum + " ms\n\n";
+
+        String barras = "|";
+        String tiempos = "0";
+        int reloj = 0;
+        int activos = cantidad;
+
+        while(activos>0){
+            Proceso pr = colaProcesos[0];
+            if(sincronizar(colaProcesos, 0)){
+                pr.setEstado("Ejecutando");
+                pr.getHilo().setQuantum(quantum);
+                colaHilos[0] = new Thread(pr.getHilo());
+                int inicio = reloj;
+                colaHilos[0].start();
+                try {
+                    colaHilos[0].join();
+                } catch (InterruptedException e) {
+                }
+                int uso = pr.getHilo().getUso();
+                reloj += uso;
+
+                salida += "[" + inicio + "-" + reloj + " ms] " + pr.getNombre() + " ejecutó " + uso + " ms, restan " + pr.getHilo().getTiempoRafaga() + " ms";
+
+                pr.setEstado("Listo");
+                boolean sigue = sincronizar(colaProcesos, 0);
+                rotar(colaProcesos, activos);
+
+                if(!sigue){
+                    activos--;
+                    totalEspera += reloj - pr.getTiempoCPU();
+                    salida += " -> TERMINADO\n";
+                }else{
+                    salida += " -> vuelve a la cola\n";
+                }
+
+                String celda = " " + pr.getNombre();
+                while(celda.length()<7) celda += " ";
+                celda += "|";
+                barras += celda;
+                String t = "" + reloj;
+                for(int j = 0;j<celda.length()-t.length(); j++) tiempos += " ";
+                tiempos += t;
+            }else{
+                rotar(colaProcesos, activos);
+                activos--;
+            }
+        }
+
+        salida += "ms" + "\nDiagrama de Gantt:\n" + barras + "\n" + tiempos + "\n" + "\nTiempo promedio de espera: " + Math.round(((double)totalEspera/cantidad*100)/100.0);
+        return salida;
+    }
+
+
+    private void rotar(Proceso[] colaProcesos, int activos){
+        Proceso primero = colaProcesos[0];
+        for(int i = 0;i<activos-1; i++) colaProcesos[i] = colaProcesos[i+1];
+        colaProcesos[activos-1] = primero;
     }
 
     //Resto

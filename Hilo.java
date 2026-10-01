@@ -6,33 +6,50 @@
  */
 public class Hilo implements Runnable
 {
-    
+    private int tiempoRafaga; private int quantum;
+    private int uso;
     private String nombre;
-    private int tiempoRafaga;
-
+    private String registro;
+    private int paso = 25;
+    
     public Hilo(String nombre) {
         this.nombre = nombre;
     }
 
     public void setTiempoRafaga(int tiempoRafaga){
-       this.tiempoRafaga = tiempoRafaga; 
+        this.tiempoRafaga = tiempoRafaga;
     }
-    
-    public void restarRafaga(int quantum){
-        tiempoRafaga -= quantum;
-        if(tiempoRafaga<0) tiempoRafaga = 0;
+
+    public int getTiempoRafaga(){
+        return tiempoRafaga;
+    }
+
+    public void setQuantum(int quantum){
+        this.quantum = quantum;
+    }
+
+    public int getUso(){
+        return uso;
+    }
+
+    public boolean hayTrabajo(){
+        return tiempoRafaga>0;
     }
 
     @Override
     public void run() {
-        for(int i = 1; i <= tiempoRafaga; i++) {
-            System.out.println(nombre + " completado: " + i);
+        uso = Math.min(quantum, tiempoRafaga);
+        System.out.println(">> " + nombre + " inicia");
+        int hecho = 0;
+        while(hecho<uso) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(350);
             } catch (InterruptedException e) {
-                System.out.println(nombre + " fue interrumpido.");
-            } 
+            }
+            hecho += paso;
+            if(hecho>uso) hecho = uso;
+            System.out.println("   " + nombre + " completado: " + hecho + "/" + uso + " ms");
         }
+        tiempoRafaga -= uso;
     }
 }
-

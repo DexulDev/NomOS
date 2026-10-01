@@ -1,8 +1,7 @@
 
 /**
  *
- * @author Club Penguin
- * @version 0.1
+ * @author Club Penguin @version 0.1
  */
 import java.util.Scanner;
 
@@ -81,7 +80,7 @@ public class Main{
                         k.setContra(sc.nextLine());
                     }
                     break;
-                case "d":
+                case "s":
                     return;
                 default:
                     clear();
@@ -93,7 +92,6 @@ public class Main{
             }
         } 
     }
-
     private static void iniciado(Kernel k){
         String r = "";
         int cantidadProcesos = 0;
@@ -103,6 +101,8 @@ public class Main{
             terminal(k);
             switch(sc.nextLine()){
                 case "1":
+                    r = "";
+                    cantidadProcesos = 0;
                     while(!r.equals("n") && !r.equals("N")){
                         cantidadProcesos++;
                         clear();
@@ -117,7 +117,11 @@ public class Main{
                         terminal(k);
                         nombres[i] = sc.nextLine();
                     }
-                    k.planificador(cantidadProcesos, nombres);
+                    clear();
+                    System.out.println(k.planificador(cantidadProcesos, nombres));
+                    System.out.println("Ingrese enter para continuar...");
+                    terminal(k);
+                    sc.nextLine();
                     break;
                 case "s":
                     return;
@@ -128,8 +132,8 @@ public class Main{
                     break;
             }
         }
-    } 
-    
+    }    
+ 
     private static void BIOS(Kernel k){
         clear();
         System.out.println(k.bios());

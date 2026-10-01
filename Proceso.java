@@ -11,11 +11,12 @@ public class Proceso
     private int tiempoCPU;
     private Hilo hilo;
     
-    public Proceso(String usuario, long direccionPrograma, long limiteMemoria){
-        this.estado = "Listo";
+    public Proceso(String usuario, long direccionPrograma, long limiteMemoria, String nombre){
+        this.estado = "Creado";
         this.direccionPrograma = direccionPrograma;
         this.limiteMemoria = limiteMemoria; //hardcodear en el futuro
         tiempoCPU = (int)((Math.random()*200)+ 1); //rafaga
+        this.nombre = nombre;
         hilo = new Hilo(nombre);
     }
     
@@ -46,6 +47,10 @@ public class Proceso
     }
 
     public int getTiempoCPU(){
+        return tiempoCPU;
+    }
+
+    public int getTiempoRestante(){
         return tiempoCPU;
     }
 
@@ -85,6 +90,10 @@ public class Proceso
 
     public void setHilo(Hilo hilo){
         this.hilo = hilo;
+    }
+
+    public boolean tieneTrabajo(){
+        return hilo.hayTrabajo();
     }
     
     public String toString(){
