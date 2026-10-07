@@ -95,6 +95,7 @@ public class Main{
     private static void iniciado(Kernel k){
         String r = "";
         int cantidadProcesos = 0;
+        int quantum;
         while(true){
             clear();
             System.out.println(k.iniciado());
@@ -111,14 +112,22 @@ public class Main{
                         r = sc.nextLine();
                     }
                     String[] nombres = new String[cantidadProcesos];
+                    int[] rafagas = new int[cantidadProcesos];
                     for(int i = 0;i<cantidadProcesos;i++){
                         clear();
                         System.out.print("Digite el nombre del proceso " + (i+1) + ": ");
                         terminal(k);
                         nombres[i] = sc.nextLine();
+                        clear();
+                        System.out.println("Digite la rafaga del proceso " + (i+1) + ": ");
+                        terminal(k);
+                        rafagas[i] = Integer.parseInt(sc.nextLine());
                     }
                     clear();
-                    System.out.println(k.planificador(cantidadProcesos, nombres));
+                    System.out.println("Digite el quantum: ");
+                    quantum = Integer.parseInt(sc.nextLine());
+                    clear();
+                    System.out.println(k.planificador(cantidadProcesos, rafagas, nombres, quantum));
                     System.out.println("Ingrese enter para continuar...");
                     terminal(k);
                     sc.nextLine();

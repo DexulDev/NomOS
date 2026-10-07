@@ -11,11 +11,11 @@ public class Proceso
     private int tiempoCPU;
     private Hilo hilo;
     
-    public Proceso(String usuario, long direccionPrograma, long limiteMemoria, String nombre){
+    public Proceso(String usuario, long direccionPrograma, long limiteMemoria, String nombre, int tiempoCPU){
         this.estado = "Creado";
         this.direccionPrograma = direccionPrograma;
-        this.limiteMemoria = limiteMemoria; //hardcodear en el futuro
-        tiempoCPU = (int)((Math.random()*200)+ 1); //rafaga
+        this.limiteMemoria = limiteMemoria; 
+        this.tiempoCPU = tiempoCPU; //rafaga
         this.nombre = nombre;
         hilo = new Hilo(nombre);
     }

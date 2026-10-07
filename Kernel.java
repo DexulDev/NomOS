@@ -210,15 +210,15 @@ public class Kernel
         return colaProcesos[i].getEstado().equals("Listo");
     }
 
-    public String planificador(int cantidad, String[] nombres){
+    public String planificador(int cantidad, int[]rafagas, String[] nombres, int quantum){
         Proceso[] colaProcesos = new Proceso[cantidad];
         Thread[] colaHilos = new Thread[cantidad];
-        String salida = "PID  Usuario    CPU     Memoria  Direccion\n";
+        String salida = "PID  Usuario    Ráfaga     Memoria  Direccion\n";
         int totalRafaga = 0;
         int totalEspera = 0;
 
         for(int i = 0;i<cantidad; i++){
-            colaProcesos[i] = new Proceso(usuario, (int)(Math.random()*300)+ 1, (int)(Math.random()*1500)+ 1, nombres[i]);
+            colaProcesos[i] = new Proceso(usuario, (int)(Math.random()*300)+ 1, (int)(Math.random()*1500)+ 1, nombres[i], rafagas[i]);
             colaProcesos[i].setPID(Integer.toString(i*10+1));
             colaProcesos[i].setUsuario(usuario);
             colaProcesos[i].getHilo().setTiempoRafaga(colaProcesos[i].getTiempoCPU());
@@ -226,9 +226,9 @@ public class Kernel
             salida += colaProcesos[i].toString() + "\n";
         }
 
-        quantum = totalRafaga/cantidad;
+        this.quantum = quantum;
         if(quantum<1) quantum = 1;
-        salida += "\nQuantum dinámico: " + quantum + " ms\n\n";
+        salida += "\nQuantum: " + quantum + " ms\n\n";
 
         String barras = "|";
         String tiempos = "0";
@@ -277,7 +277,7 @@ public class Kernel
             }
         }
 
-        salida += "ms" + "\nDiagrama de Gantt:\n" + barras + "\n" + tiempos + "\n" + "\nTiempo promedio de espera: " + Math.round(((double)totalEspera/cantidad*100)/100.0);
+        salida += "ms" + "\nDiagrama de Gantt:\n" + barras + "\n" + tiempos + "\n" + "\nTiempo promedio de espera: " + totalEspera/cantidad + "ms";
         return salida;
     }
 
