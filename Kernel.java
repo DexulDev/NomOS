@@ -212,6 +212,7 @@ public class Kernel
 
     public String planificador(int cantidad, int[]rafagas, String[] nombres, int quantum){
         Proceso[] colaProcesos = new Proceso[cantidad];
+        Proceso[] orden = new Proceso[cantidad];
         Thread[] colaHilos = new Thread[cantidad];
         String salida = "PID  Usuario    Ráfaga     Memoria  Direccion\n";
         int totalRafaga = 0;
@@ -222,6 +223,7 @@ public class Kernel
             colaProcesos[i].setPID(Integer.toString(i*10+1));
             colaProcesos[i].setUsuario(usuario);
             colaProcesos[i].getHilo().setTiempoRafaga(colaProcesos[i].getTiempoCPU());
+            orden[i] = colaProcesos[i];
             totalRafaga += colaProcesos[i].getTiempoCPU();
             salida += colaProcesos[i].toString() + "\n";
         }
@@ -229,6 +231,14 @@ public class Kernel
         this.quantum = quantum;
         if(quantum<1) quantum = 1;
         salida += "\nQuantum: " + quantum + " ms\n\n";
+
+        salida += "Transición de estados:\n" + estados(orden);
+        for(int i = 0;i<cantidad; i++){
+            String antes = colaProcesos[i].getEstado();
+            sincronizar(colaProcesos, i);
+            salida += cambio(colaProcesos[i], antes);
+        }
+        salida += estados(orden) + "\n";
 
         String barras = "|";
         String tiempos = "0";
@@ -238,7 +248,9 @@ public class Kernel
         while(activos>0){
             Proceso pr = colaProcesos[0];
             if(sincronizar(colaProcesos, 0)){
+                String antes = pr.getEstado();
                 pr.setEstado("Ejecutando");
+                salida += cambio(pr, antes) + estados(orden);
                 pr.getHilo().setQuantum(quantum);
                 colaHilos[0] = new Thread(pr.getHilo());
                 int inicio = reloj;
@@ -263,6 +275,7 @@ public class Kernel
                 }else{
                     salida += " -> vuelve a la cola\n";
                 }
+                salida += cambio(pr, "Ejecutando") + estados(orden) + "\n";
 
                 String celda = " " + pr.getNombre();
                 while(celda.length()<7) celda += " ";
@@ -277,15 +290,24 @@ public class Kernel
             }
         }
 
-        salida += "ms" + "\nDiagrama de Gantt:\n" + barras + "\n" + tiempos + "\n" + "\nTiempo promedio de espera: " + totalEspera/cantidad + "ms";
+        salida += "ms" + "\nDiagrama de Gantt:\n" + barras + "\n" + tiempos + "\n" + "\nTiempo promedio de espera: " + (double)totalEspera/cantidad + "ms";
         return salida;
     }
-
-
     private void rotar(Proceso[] colaProcesos, int activos){
         Proceso primero = colaProcesos[0];
         for(int i = 0;i<activos-1; i++) colaProcesos[i] = colaProcesos[i+1];
         colaProcesos[activos-1] = primero;
+    }
+
+    
+    private String cambio(Proceso pr, String antes){
+        return "   " + pr.getNombre() + ": " + antes + " -> " + pr.getEstado() + "\n";
+    }
+
+    private String estados(Proceso[] procesos){
+        String linea = "   Estados:";
+        for(int i = 0;i<procesos.length; i++) linea += " " + procesos[i].getNombre() + "=" + procesos[i].getEstado();
+        return linea + "\n";
     }
 
     //Resto
