@@ -125,12 +125,10 @@ public class Main{
                     }
                     clear();
                     System.out.println("Digite el quantum: ");
-                    quantum = Integer.parseInt(sc.nextLine());
-                    clear();
-                    System.out.println(k.planificador(cantidadProcesos, rafagas, nombres, quantum));
-                    System.out.println("Ingrese enter para continuar...");
                     terminal(k);
-                    sc.nextLine();
+                    quantum = Integer.parseInt(sc.nextLine());
+                    if(quantum<1) quantum = 1;
+                    postProceso(k, cantidadProcesos, rafagas, nombres, quantum);
                     break;
                 case "s":
                     return;
@@ -169,4 +167,67 @@ public class Main{
     private static void terminal(Kernel k){
         System.out.print(k.getTerminal());
     }
+
+    private static void postProceso(Kernel k, int cantidad, int[] rafagas, String[] nombres, int quantum){
+        while(true){
+            clear();
+            System.out.println(k.postProceso());
+            terminal(k);
+            switch(sc.nextLine()){
+                case "1":
+                    Proceso[] procesos = k.crearProcesos(cantidad, rafagas, nombres, quantum);
+                    clear();
+                    System.out.println(k.planificador(procesos, new Thread[cantidad], quantum));
+                    System.out.println("Ingrese enter para continuar...");
+                    terminal(k);
+                    sc.nextLine();
+                    break;
+                case "2":
+                    transicion(k, cantidad, rafagas, nombres, quantum);
+                    break;
+                case "s":
+                    return;
+                default:
+                    clear();
+                    System.out.println("Opción incorrecta...");
+                    System.out.println("Digite enter...");
+                    terminal(k);
+                    sc.nextLine();
+                    break;
+            }
+        }
+    }
+
+    private static void transicion(Kernel k, int cantidad, int[] rafagas, String[] nombres, int quantum){
+        Proceso[] procesos = k.crearProcesos(cantidad, rafagas, nombres, quantum);
+        String mensaje = "";
+        while(true){
+            clear();
+            System.out.println(k.tablaEstados(procesos));
+            System.out.println(k.menuTransicion());
+            System.out.println(mensaje);
+            terminal(k);
+            String opcion = sc.nextLine();
+            if(opcion.equals("s")) return;
+            if(opcion.matches("[1-6]")){
+                clear();
+                System.out.println(k.tablaEstados(procesos));
+                System.out.print("Número de proceso: ");
+                terminal(k);
+                int numero = 0;
+                try {
+                    numero = Integer.parseInt(sc.nextLine());
+                } catch (NumberFormatException e) {
+                }
+                if(numero<1 || numero>cantidad){
+                    mensaje = "Proceso inexistente...";
+                }else{
+                    mensaje = k.transicion(procesos, numero-1, opcion);
+                }
+            }else{
+                mensaje = "Opción incorrecta...";
+            }
+        }
+    }
+
 }
