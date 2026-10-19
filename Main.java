@@ -183,9 +183,13 @@ public class Main{
                     sc.nextLine();
                     break;
                 case "2":
-                    transicion(k, cantidad, rafagas, nombres, quantum);
-                    break;
-                case "s":
+                    Proceso[] simulados = k.crearProcesos(cantidad, rafagas, nombres, quantum);
+                    clear();
+                    System.out.println(k.transicionAutomatica(simulados, quantum));
+                    System.out.println("Ingrese enter para continuar...");
+                    terminal(k);
+                    sc.nextLine();
+                    break;                case "s":
                     return;
                 default:
                     clear();

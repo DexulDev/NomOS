@@ -391,13 +391,111 @@ public class Kernel
         return linea + "\n";
     }
 
-    //Resto
+    private int elegir(Proceso[] procesos, String estado){
+        int cuantos = 0;
+        for(int i = 0;i<procesos.length; i++){
+            if(procesos[i].getEstado().equals(estado)) cuantos++;
+        }
+        if(cuantos==0) return -1;
+        int sorteo = (int)(Math.random()*cuantos);
+        for(int i = 0;i<procesos.length; i++){
+            if(procesos[i].getEstado().equals(estado)){
+                if(sorteo==0) return i;
+                sorteo--;
+            }
+        }
+        return -1;
+    }
 
-    public String[] getLogo(){
-        return sistema.getLogo();
+    private int bloqueadoMasAntiguo(Proceso[] procesos, int[] bloqueadoDesde){
+        int elegido = -1;
+        for(int i = 0;i<procesos.length; i++){
+            if(procesos[i].getEstado().equals("Bloqueado") && (elegido==-1 || bloqueadoDesde[i]<bloqueadoDesde[elegido])) elegido = i;
+        }
+        return elegido;
     }
-    
-    public String getTerminal(){
-        return sesion ? "\n[" + usuario + "@nomOS~]$ " :  "\n- ";
+
+    private String despachar(Proceso[] procesos, int i){
+        String antes = procesos[i].getEstado();
+        procesos[i].setEstado("Ejecutando");
+        return cambio(procesos[i], antes);
     }
-}
+
+    public String transicionAutomatica(Proceso[] procesos, int quantum){
+        int paso = quantum;
+        if(paso<1) paso = 1;
+        int[] bloqueadoDesde = new int[procesos.length];
+        int activos = procesos.length;
+        int tick = 0;
+        String salida = "Transición automática (1 tick = " + paso + " ms)\n\n";
+
+        salida += "Tick 0\n" + estados(procesos);
+        for(int i = 0;i<procesos.length; i++){
+            String antes = procesos[i].getEstado();
+            procesos[i].setEstado("Listo");
+            salida += cambio(procesos[i], antes);
+        }
+        salida += estados(procesos);
+        salida += despachar(procesos, elegir(procesos, "Listo")) + estados(procesos) + "\n";
+
+        while(activos>0){
+            tick++;
+            salida += "Tick " + tick + "\n";
+            int actual = elegir(procesos, "Ejecutando");
+            Proceso pr = procesos[actual];
+            int dado = (int)(Math.random()*100)+1;
+
+            if(dado<30){
+                salida += pr.getNombre() + " se bloquea\n";
+                pr.setEstado("Bloqueado");
+                bloqueadoDesde[actual] = tick;
+                salida += cambio(pr, "Ejecutando");
+                int nuevo = elegir(procesos, "Listo");
+                if(nuevo!=-1) salida += despachar(procesos, nuevo);
+            }else{
+                int antes = pr.getHilo().getTiempoRafaga();
+                int uso = Math.min(paso, antes);
+                pr.getHilo().setTiempoRafaga(antes-uso);
+                salida += "   Dado: " + dado + " -> " + pr.getNombre() + " ejecutó " + uso + " ms, restan " + (antes-uso) + " ms\n";
+                if(!pr.tieneTrabajo()){
+                    pr.setEstado("Terminado");
+                    activos--;
+                    salida += cambio(pr, "Ejecutando");
+                    int nuevo = elegir(procesos, "Listo");
+                    if(nuevo!=-1) salida += despachar(procesos, nuevo);
+                    int liberado = bloqueadoMasAntiguo(procesos, bloqueadoDesde);
+                    if(liberado!=-1){
+                        procesos[liberado].setEstado("Listo");
+                        salida += cambio(procesos[liberado], "Bloqueado");
+                    }
+                }
+            }
+
+            if(activos>0 && elegir(procesos, "Ejecutando")==-1){
+                int nuevo = elegir(procesos, "Listo");
+                if(nuevo!=-1){
+                    salida += despachar(procesos, nuevo);
+                }else{
+                    int rescatado = elegir(procesos, "Bloqueado");
+                    procesos[rescatado].setEstado("Listo");
+                    salida += "   Todos están bloqueados, se libera uno al azar\n" + cambio(procesos[rescatado], "Bloqueado");
+                    salida += despachar(procesos, rescatado);
+                }
+            }
+            salida += estados(procesos) + "\n";
+        }
+
+        salida += "Todos los procesos terminaron en " + tick + " ticks.";
+        return salida;
+    }
+
+        //Resto
+
+        public String[] getLogo(){
+            return sistema.getLogo();
+        }
+
+        public String getTerminal(){
+            return sesion ? "\n[" + usuario + "@nomOS~]$ " :  "\n- ";
+        }
+    }
