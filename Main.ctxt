@@ -1,0 +1,23 @@
+#BlueJ class context
+#Mon Oct 19 12:59:05 CST 2026
+comment0.target=Main
+comment1.params=args
+comment1.target=void main(java.lang.String[])
+comment10.params=k cantidad rafagas nombres quantum
+comment10.target=void transicion(Kernel, int, int[], java.lang.String[], int)
+comment2.target=void clear()
+comment3.params=k
+comment3.target=void login(Kernel)
+comment4.params=k
+comment4.target=void iniciado(Kernel)
+comment5.params=k
+comment5.target=void BIOS(Kernel)
+comment6.params=k
+comment6.target=void about(Kernel)
+comment7.params=k
+comment7.target=void pantallaLogo(Kernel)
+comment8.params=k
+comment8.target=void terminal(Kernel)
+comment9.params=k cantidad rafagas nombres quantum
+comment9.target=void postProceso(Kernel, int, int[], java.lang.String[], int)
+numComments=11

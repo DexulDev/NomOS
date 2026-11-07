@@ -1,0 +1,34 @@
+#BlueJ class context
+#Mon Oct 19 02:11:33 CST 2026
+comment0.target=Proceso
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.params=usuario direccionPrograma limiteMemoria nombre tiempoCPU
+comment1.target=Proceso(java.lang.String, long, long, java.lang.String, int)
+comment10.target=Hilo getHilo()
+comment11.params=pid
+comment11.target=void setPID(java.lang.String)
+comment12.params=nombre
+comment12.target=void setNombre(java.lang.String)
+comment13.params=estado
+comment13.target=void setEstado(java.lang.String)
+comment14.params=direccionPrograma
+comment14.target=void setDireccionPrograma(long)
+comment15.params=limiteMemoria
+comment15.target=void setLimiteMemoria(long)
+comment16.params=usuario
+comment16.target=void setUsuario(java.lang.String)
+comment17.params=tiempoCPU
+comment17.target=void setTiempoCPU(int)
+comment18.params=hilo
+comment18.target=void setHilo(Hilo)
+comment19.target=boolean tieneTrabajo()
+comment2.target=java.lang.String getPid()
+comment20.target=java.lang.String toString()
+comment3.target=java.lang.String getNombre()
+comment4.target=java.lang.String getEstado()
+comment5.target=long getDireccionPrograma()
+comment6.target=long getLimiteMemoria()
+comment7.target=java.lang.String getUsuario()
+comment8.target=int getTiempoCPU()
+comment9.target=int getTiempoRestante()
+numComments=21
