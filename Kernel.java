@@ -208,6 +208,7 @@ public class Kernel
         "||                             ||\n" +
         "||  1) Round Robin.            ||\n" +
         "||  2) Transición              ||\n" +
+        "||  3) Memoria                 ||\n" +
         "||  s) Salir                   ||\n" +
         "||                             ||\n" +
         "||=============================||\n" 
@@ -489,13 +490,50 @@ public class Kernel
         return salida;
     }
 
-        //Resto
+    //Resto
 
-        public String[] getLogo(){
-            return sistema.getLogo();
-        }
+    public String[] getLogo(){
+        return sistema.getLogo();
+    }
 
-        public String getTerminal(){
-            return sesion ? "\n[" + usuario + "@nomOS~]$ " :  "\n- ";
+    public String getTerminal(){
+        return sesion ? "\n[" + usuario + "@nomOS~]$ " :  "\n- ";
+    }
+
+
+    //Memoria
+    public String menuMemoria(){
+        return(
+        "||=============================||\n"+
+        "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
+        "||                             ||\n" +
+        "||          -Memoria-          ||\n" +
+        "||                             ||\n" +
+        "||  1) Primer ajuste           ||\n" +
+        "||  2) Mejor ajuste            ||\n" +
+        "||  3) Peor ajuste             ||\n" +
+        "||  4) Todos                   ||\n" +
+        "||  s) Regresar                ||\n" +
+        "||                             ||\n" +
+        "||=============================||\n"
+        );
+    }
+
+    public void asignarTamaños(Proceso[] procesos, int[] tamaños){
+        for(int i = 0; i<procesos.length; i++) procesos[i].setTamaño(tamaños[i]);
+    }
+
+    //se crea una Memoria nueva en cada uno
+    public String memoria(String opcion, int[] cuadros, Proceso[] procesos, int total){
+        switch(opcion){
+            case "1": return new Memoria(cuadros.length, cuadros).primerAjuste(procesos, total);
+            case "2": return new Memoria(cuadros.length, cuadros).mejorAjuste(procesos, total);
+            case "3": return new Memoria(cuadros.length, cuadros).peorAjuste(procesos, total);
+            case "4":
+                return new Memoria(cuadros.length, cuadros).primerAjuste(procesos, total) + "\n\n" +
+                       new Memoria(cuadros.length, cuadros).mejorAjuste(procesos, total) + "\n\n" +
+                       new Memoria(cuadros.length, cuadros).peorAjuste(procesos, total);
+            default: return "Opción incorrecta...";
         }
     }
+}

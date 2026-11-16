@@ -1,0 +1,15 @@
+#BlueJ class context
+#Sat Nov 07 03:17:23 CST 2026
+comment0.target=Memoria
+comment0.text=\n Write a description of class Memoria here.\n\n @author Club Penguin\n
+comment1.params=cantidadCuadros valorCuadros
+comment1.target=Memoria(int, int[])
+comment2.params=procesos memoriaTotal
+comment2.target=java.lang.String primerAjuste(Proceso[], int)
+comment3.params=procesos memoriaTotal
+comment3.target=java.lang.String mejorAjuste(Proceso[], int)
+comment4.params=procesos memoriaTotal
+comment4.target=java.lang.String peorAjuste(Proceso[], int)
+comment5.params=indiceCuadro indiceProceso cuadros procesos
+comment5.target=Cuadro[] meter(int, int, Cuadro[], Proceso[])
+numComments=6

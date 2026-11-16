@@ -1,5 +1,5 @@
 #BlueJ class context
-#Mon Oct 19 12:39:53 CST 2026
+#Sat Nov 07 03:22:29 CST 2026
 comment0.target=Kernel
 comment0.text=\n\n @author Club Penguin\n @version 0.1\n
 comment1.target=Kernel()
@@ -44,6 +44,11 @@ comment31.params=procesos quantum
 comment31.target=java.lang.String transicionAutomatica(Proceso[], int)
 comment32.target=java.lang.String[] getLogo()
 comment33.target=java.lang.String getTerminal()
+comment34.target=java.lang.String menuMemoria()
+comment35.params=procesos tama\u00F1os
+comment35.target=void asignarTama\u00F1os(Proceso[], int[])
+comment36.params=opcion cuadros procesos total
+comment36.target=java.lang.String memoria(java.lang.String, int[], Proceso[], int)
 comment4.target=java.lang.String getContra()
 comment5.params=contra
 comment5.target=void setContra(java.lang.String)
@@ -51,4 +56,4 @@ comment6.target=java.lang.String getSistemaNombre()
 comment7.target=boolean getSesion()
 comment8.target=java.lang.String menu()
 comment9.target=java.lang.String login()
-numComments=34
+numComments=37

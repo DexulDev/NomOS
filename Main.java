@@ -189,7 +189,11 @@ public class Main{
                     System.out.println("Ingrese enter para continuar...");
                     terminal(k);
                     sc.nextLine();
-                    break;                case "s":
+                    break;
+                case "3":
+                    memoria(k, cantidad, rafagas, nombres, quantum);
+                    break;
+                case "s":
                     return;
                 default:
                     clear();
@@ -234,4 +238,61 @@ public class Main{
         }
     }
 
+    private static void memoria(Kernel k, int cantidad, int[] rafagas, String[] nombres, int quantum){
+        clear();
+        System.out.print("Ingrese la memoria total: ");
+        terminal(k);
+        int total = Integer.parseInt(sc.nextLine());
+
+        clear();
+        System.out.print("Cantidad de cuadros: ");
+        terminal(k);
+        int cantidadCuadros = Integer.parseInt(sc.nextLine());
+
+        //el último cuadro toma lo que sobra
+        int[] cuadros = new int[cantidadCuadros];
+        int suma = 0;
+        for(int i = 0; i<cantidadCuadros-1; i++){
+            clear();
+            System.out.print("Ingrese el valor del cuadro " + (i+1) + ": ");
+            terminal(k);
+            cuadros[i] = Integer.parseInt(sc.nextLine());
+            suma += cuadros[i];
+        }
+        cuadros[cantidadCuadros-1] = total - suma;
+
+        if(cuadros[cantidadCuadros-1] <= 0){
+            clear();
+            System.out.println("Los cuadros exceden la memoria total...");
+            System.out.println("Ingrese enter para continuar...");
+            terminal(k);
+            sc.nextLine();
+            return;
+        }
+
+        // reutiliza los nombres de los procesos ya capturados, solo pide el tamaño
+        int[] tamaños = new int[cantidad];
+        for(int i = 0; i<cantidad; i++){
+            clear();
+            System.out.print("Ingrese el tamaño del proceso " + nombres[i] + ": ");
+            terminal(k);
+            tamaños[i] = Integer.parseInt(sc.nextLine());
+        }
+
+        Proceso[] procesos = k.crearProcesos(cantidad, rafagas, nombres, quantum);
+        k.asignarTamaños(procesos, tamaños);
+
+        while(true){
+            clear();
+            System.out.println(k.menuMemoria());
+            terminal(k);
+            String opcion = sc.nextLine();
+            if(opcion.equals("s")) return;
+            clear();
+            System.out.println(k.memoria(opcion, cuadros, procesos, total));
+            System.out.println("Ingrese enter para continuar...");
+            terminal(k);
+            sc.nextLine();
+        }
+    }
 }

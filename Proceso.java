@@ -10,7 +10,8 @@ public class Proceso
     private long direccionPrograma, limiteMemoria;
     private int tiempoCPU;
     private Hilo hilo;
-    
+    private int tamaño;
+
     public Proceso(String usuario, long direccionPrograma, long limiteMemoria, String nombre, int tiempoCPU){
         this.estado = "Creado";
         this.direccionPrograma = direccionPrograma;
@@ -57,7 +58,11 @@ public class Proceso
     public Hilo getHilo(){
         return hilo;
     }
-    
+
+    public int getTamaño(){
+        return tamaño;
+    }
+
     //setters
     
     public void setPID(String pid){
@@ -95,7 +100,10 @@ public class Proceso
     public boolean tieneTrabajo(){
         return hilo.hayTrabajo();
     }
-    
+
+    public void setTamaño(int tamaño){
+        this.tamaño = tamaño;
+    }   
     public String toString(){
         return pid + "  " + 
         usuario + "    " + 
