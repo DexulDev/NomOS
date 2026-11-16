@@ -193,6 +193,9 @@ public class Main{
                 case "3":
                     memoria(k, cantidad, rafagas, nombres, quantum);
                     break;
+                case "4":
+                    dispositivos(k);
+                    break;
                 case "s":
                     return;
                 default:
@@ -293,6 +296,46 @@ public class Main{
             System.out.println("Ingrese enter para continuar...");
             terminal(k);
             sc.nextLine();
+        }
+    }
+    private static void dispositivos(Kernel k){
+    String mensaje = "";
+    while(true){
+        clear();
+        System.out.println(k.tablaDispositivos());
+        System.out.println(k.menuDispositivos());
+        System.out.println(mensaje);
+        terminal(k);
+        String opcion = sc.nextLine();
+        if(opcion.equals("s")) return;
+        if(opcion.matches("[1-4]")){
+            clear();
+            System.out.println(k.tablaDispositivos());
+            System.out.print("Nombre del dispositivo (ej. /dev/disco0): ");
+            terminal(k);
+            String nombre = sc.nextLine();
+            switch(opcion){
+                case "1":
+                    mensaje = k.abrirDispositivo(nombre);
+                    break;
+                case "2":
+                    System.out.print("Datos a escribir: ");
+                    terminal(k);
+                    String datos = sc.nextLine();
+                    mensaje = k.escribirDispositivo(nombre, datos);
+                    break;
+                case "3":
+                    System.out.println("Leyendo de " + nombre + " (si es el teclado, escribe el texto):");
+                    terminal(k);
+                    mensaje = k.leerDispositivo(nombre);
+                    break;
+                case "4":
+                    mensaje = k.cerrarDispositivo(nombre);
+                    break;
+                }
+            }else{
+                mensaje = "Opción incorrecta...";
+            }
         }
     }
 }

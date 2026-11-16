@@ -1,0 +1,12 @@
+#BlueJ class context
+#Mon Nov 16 17:34:26 CST 2026
+comment0.target=ControladorPantalla
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.target=ControladorPantalla()
+comment2.target=void abrir()
+comment3.params=datos
+comment3.target=void escribir(java.lang.String)
+comment4.target=java.lang.String leer()
+comment5.target=void cerrar()
+comment6.target=java.lang.String getTipo()
+numComments=7

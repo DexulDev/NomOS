@@ -10,12 +10,17 @@ public class Kernel
     private String usuario;
     private String contra;
     private int quantum;
+    private AdministradorDispositivos admin;
 
     public Kernel(){
         sistema = new NomOS();
         sesion = false;
         usuario = null;
         contra = null;
+        admin = new AdministradorDispositivos(10);
+        admin.registrar("/dev/teclado", new ControladorTeclado());
+        admin.registrar("/dev/pantalla", new ControladorPantalla());
+        admin.registrar("/dev/disco0", new ControladorDisco("disco0.txt"));
     }
 
     public String getUsuario(){
@@ -209,9 +214,10 @@ public class Kernel
         "||  1) Round Robin.            ||\n" +
         "||  2) Transición              ||\n" +
         "||  3) Memoria                 ||\n" +
+        "||  4) Dispositivos E/S        ||\n" +
         "||  s) Salir                   ||\n" +
         "||                             ||\n" +
-        "||=============================||\n" 
+        "||=============================||\n"
         );
     }
 
@@ -488,6 +494,44 @@ public class Kernel
 
         salida += "Todos los procesos terminaron en " + tick + " ticks.";
         return salida;
+    }
+
+    //Dispositivos
+    public String menuDispositivos(){
+        return(
+        "||=============================||\n"+
+        "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
+        "||                             ||\n" +
+        "||       -Dispositivos-        ||\n" +
+        "||                             ||\n" +
+        "||  1) Abrir                   ||\n" +
+        "||  2) Escribir                ||\n" +
+        "||  3) Leer                    ||\n" +
+        "||  4) Cerrar                  ||\n" +
+        "||  s) Regresar                ||\n" +
+        "||                             ||\n" +
+        "||=============================||\n"
+        );
+    }
+
+    public String tablaDispositivos(){
+        return admin.tabla();
+    }
+
+    public String abrirDispositivo(String nombre){
+        return admin.abrir(nombre);
+    }
+
+    public String escribirDispositivo(String nombre, String datos){
+        return admin.escribir(nombre, datos);
+    }
+
+    public String leerDispositivo(String nombre){
+        return admin.leer(nombre);
+    }
+
+    public String cerrarDispositivo(String nombre){
+        return admin.cerrar(nombre);
     }
 
     //Resto

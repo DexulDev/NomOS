@@ -1,0 +1,20 @@
+#BlueJ class context
+#Mon Nov 16 17:34:26 CST 2026
+comment0.target=AdministradorDispositivos
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.params=capacidad
+comment1.target=AdministradorDispositivos(int)
+comment2.params=nombre dispositivo
+comment2.target=boolean registrar(java.lang.String, DispositivoES)
+comment3.params=nombre
+comment3.target=int buscar(java.lang.String)
+comment4.params=nombre
+comment4.target=java.lang.String abrir(java.lang.String)
+comment5.params=nombre datos
+comment5.target=java.lang.String escribir(java.lang.String, java.lang.String)
+comment6.params=nombre
+comment6.target=java.lang.String leer(java.lang.String)
+comment7.params=nombre
+comment7.target=java.lang.String cerrar(java.lang.String)
+comment8.target=java.lang.String tabla()
+numComments=9
