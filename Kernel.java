@@ -11,12 +11,14 @@ public class Kernel
     private String contra;
     private int quantum;
     private AdministradorDispositivos admin;
+    private SistemaArchivo archivos;
 
     public Kernel(){
         sistema = new NomOS();
         sesion = false;
         usuario = null;
         contra = null;
+        archivos = new SistemaArchivo();
         admin = new AdministradorDispositivos(10);
         admin.registrar("/dev/teclado", new ControladorTeclado());
         admin.registrar("/dev/pantalla", new ControladorPantalla());
@@ -188,7 +190,6 @@ public class Kernel
         "||=============================||\n" 
         );
     }
-
     public String iniciado(){
         return(
         "||=============================||\n"+
@@ -197,10 +198,12 @@ public class Kernel
         "||  Inicio de sesion exitoso!  ||\n" +
         "||                             ||\n" +
         "||  1) Generar procesos.       ||\n" +
+        "||  2) Dispositivos E/S        ||\n" +
+        "||  3) Sistema de archivos     ||\n" +
         "||                             ||\n" +
         "||  s) Salir                   ||\n" +
         "||                             ||\n" +
-        "||=============================||\n" 
+        "||=============================||\n"
         );
     }
     
@@ -579,5 +582,49 @@ public class Kernel
                        new Memoria(cuadros.length, cuadros).peorAjuste(procesos, total);
             default: return "Opción incorrecta...";
         }
+    }
+    
+    //sistema de archivos
+    public String menuArchivos(){
+        return(
+        "||=============================||\n"+
+        "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
+        "||                             ||\n" +
+        "||     -Sistema de archivos-   ||\n" +
+        "||                             ||\n" +
+        "||  1) Crear                   ||\n" +
+        "||  2) Escribir                ||\n" +
+        "||  3) Leer                    ||\n" +
+        "||  4) Eliminar                ||\n" +
+        "||  5) Listar directorio       ||\n" +
+        "||  6) Mapa del disco          ||\n" +
+        "||  s) Regresar                ||\n" +
+        "||                             ||\n" +
+        "||=============================||\n"
+        );
+    }
+
+    public String crearArchivo(String nombre){
+        return archivos.crear(nombre);
+    }
+
+    public String escribirArchivo(String nombre, String texto){
+        return archivos.escribir(nombre, texto);
+    }
+
+    public String leerArchivo(String nombre){
+        return archivos.leer(nombre);
+    }
+
+    public String eliminarArchivo(String nombre){
+        return archivos.eliminar(nombre);
+    }
+
+    public String listarArchivos(){
+        return archivos.listar();
+    }
+
+    public String mapaDisco(){
+        return archivos.mapa();
     }
 }

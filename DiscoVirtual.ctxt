@@ -1,0 +1,11 @@
+#BlueJ class context
+#Mon Nov 23 11:52:03 CST 2026
+comment0.target=DiscoVirtual
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.target=DiscoVirtual()
+comment2.target=int buscarLibre()
+comment3.target=int bloquesLibres()
+comment4.params=id
+comment4.target=Bloque getBloque(int)
+comment5.target=java.lang.String mapa()
+numComments=6

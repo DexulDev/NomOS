@@ -130,6 +130,9 @@ public class Main{
                     if(quantum<1) quantum = 1;
                     postProceso(k, cantidadProcesos, rafagas, nombres, quantum);
                     break;
+                case "3":
+                    archivos(k);
+                    break;
                 case "s":
                     return;
                 default:
@@ -335,6 +338,52 @@ public class Main{
                 }
             }else{
                 mensaje = "Opción incorrecta...";
+            }
+        }
+    }
+
+    private static void archivos(Kernel k){
+        String mensaje = "";
+        while(true){
+            clear();
+            System.out.println(k.mapaDisco());
+            System.out.println(k.menuArchivos());
+            System.out.println(mensaje);
+            terminal(k);
+            String opcion = sc.nextLine();
+            if(opcion.equals("s")) return;
+            switch(opcion){
+                case "1":
+                    System.out.print("Nombre del archivo: ");
+                    terminal(k);
+                    mensaje = k.crearArchivo(sc.nextLine());
+                    break;
+                case "2":
+                    System.out.print("Nombre del archivo: ");
+                    terminal(k);
+                    String nombre = sc.nextLine();
+                    System.out.print("Texto a escribir (máx. 160 caracteres): ");
+                    terminal(k);
+                    mensaje = k.escribirArchivo(nombre, sc.nextLine());
+                    break;
+                case "3":
+                    System.out.print("Nombre del archivo: ");
+                    terminal(k);
+                    mensaje = k.leerArchivo(sc.nextLine());
+                    break;
+                case "4":
+                    System.out.print("Nombre del archivo: ");
+                    terminal(k);
+                    mensaje = k.eliminarArchivo(sc.nextLine());
+                    break;
+                case "5":
+                    mensaje = k.listarArchivos();
+                    break;
+                case "6":
+                    mensaje = "Mapa actualizado arriba.";
+                    break;
+                default:
+                    mensaje = "Opción incorrecta...";
             }
         }
     }

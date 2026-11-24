@@ -1,0 +1,15 @@
+#BlueJ class context
+#Wed Nov 18 13:07:10 CST 2026
+comment0.target=Hilo
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.params=nombre
+comment1.target=Hilo(java.lang.String)
+comment2.params=tiempoRafaga
+comment2.target=void setTiempoRafaga(int)
+comment3.target=int getTiempoRafaga()
+comment4.params=quantum
+comment4.target=void setQuantum(int)
+comment5.target=int getUso()
+comment6.target=boolean hayTrabajo()
+comment7.target=void run()
+numComments=8

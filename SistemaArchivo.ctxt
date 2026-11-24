@@ -1,0 +1,20 @@
+#BlueJ class context
+#Mon Nov 23 11:52:03 CST 2026
+comment0.target=SistemaArchivo
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.target=SistemaArchivo()
+comment2.params=nombre
+comment2.target=int buscar(java.lang.String)
+comment3.params=archivo
+comment3.target=void liberar(Archivo)
+comment4.params=nombre
+comment4.target=java.lang.String crear(java.lang.String)
+comment5.params=nombre texto
+comment5.target=java.lang.String escribir(java.lang.String, java.lang.String)
+comment6.params=nombre
+comment6.target=java.lang.String leer(java.lang.String)
+comment7.params=nombre
+comment7.target=java.lang.String eliminar(java.lang.String)
+comment8.target=java.lang.String listar()
+comment9.target=java.lang.String mapa()
+numComments=10

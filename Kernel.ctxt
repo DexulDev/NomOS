@@ -1,5 +1,5 @@
 #BlueJ class context
-#Mon Nov 16 17:34:26 CST 2026
+#Mon Nov 23 11:52:03 CST 2026
 comment0.target=Kernel
 comment0.text=\n\n @author Club Penguin\n @version 0.1\n
 comment1.target=Kernel()
@@ -60,10 +60,21 @@ comment41.params=procesos tama\u00F1os
 comment41.target=void asignarTama\u00F1os(Proceso[], int[])
 comment42.params=opcion cuadros procesos total
 comment42.target=java.lang.String memoria(java.lang.String, int[], Proceso[], int)
+comment43.target=java.lang.String menuArchivos()
+comment44.params=nombre
+comment44.target=java.lang.String crearArchivo(java.lang.String)
+comment45.params=nombre texto
+comment45.target=java.lang.String escribirArchivo(java.lang.String, java.lang.String)
+comment46.params=nombre
+comment46.target=java.lang.String leerArchivo(java.lang.String)
+comment47.params=nombre
+comment47.target=java.lang.String eliminarArchivo(java.lang.String)
+comment48.target=java.lang.String listarArchivos()
+comment49.target=java.lang.String mapaDisco()
 comment5.params=contra
 comment5.target=void setContra(java.lang.String)
 comment6.target=java.lang.String getSistemaNombre()
 comment7.target=boolean getSesion()
 comment8.target=java.lang.String menu()
 comment9.target=java.lang.String login()
-numComments=43
+numComments=50

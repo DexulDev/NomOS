@@ -1,0 +1,12 @@
+#BlueJ class context
+#Mon Nov 23 11:52:03 CST 2026
+comment0.target=Bloque
+comment1.params=id
+comment1.target=Bloque(int)
+comment2.params=fragmento
+comment2.target=void escribir(java.lang.String)
+comment3.target=java.lang.String leer()
+comment4.target=void limpiar()
+comment5.target=boolean siOcupado()
+comment6.target=int getId()
+numComments=7

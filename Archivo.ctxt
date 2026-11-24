@@ -1,0 +1,15 @@
+#BlueJ class context
+#Mon Nov 23 11:52:03 CST 2026
+comment0.target=Archivo
+comment1.params=nombre
+comment1.target=Archivo(java.lang.String)
+comment2.params=idBloque
+comment2.target=boolean agregarBloque(int)
+comment3.target=void limpiarBloques()
+comment4.target=java.lang.String getNombre()
+comment5.target=int getTamano()
+comment6.params=tamano
+comment6.target=void setTamano(int)
+comment7.target=int[] getBloquesAsignados()
+comment8.target=int getCantidadBloques()
+numComments=9
