@@ -22,6 +22,10 @@ public class SistemaArchivo
         return -1;
     }
 
+    public boolean existe(String nombre){
+        return buscar(nombre) != -1;
+    }
+
     private void liberar(Archivo archivo){
         int[] ids = archivo.getBloquesAsignados();
         for(int i = 0;i<archivo.getCantidadBloques(); i++){

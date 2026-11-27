@@ -1,3 +1,9 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 /**
  *
  * @author Club Penguin
@@ -12,6 +18,11 @@ public class Kernel
     private int quantum;
     private AdministradorDispositivos admin;
     private SistemaArchivo archivos;
+    private MonitorSeguridad monitor;
+    private static final int MaxUsuarios = 10;
+    private Usuario[] usuarios;
+    private int cantidadUsuarios;
+    private File archivoUsuarios;
 
     public Kernel(){
         sistema = new NomOS();
@@ -19,6 +30,23 @@ public class Kernel
         usuario = null;
         contra = null;
         archivos = new SistemaArchivo();
+        usuarios = new Usuario[MaxUsuarios];
+        cantidadUsuarios = 0;
+        archivoUsuarios = new File("usuarios.txt");
+        if(archivoUsuarios.exists()) cargarUsuarios();
+        if(cantidadUsuarios == 0){
+            //solo la primera vez: los 3 perfiles que pide la práctica
+            agregar("admin", "admin123");
+            agregar("alumno", "alumno123");
+            agregar("invitado", "invitado123");
+            guardarUsuarios();
+        }
+        monitor = new MonitorSeguridad("seguridad.txt", usuarios);
+        String[] nombresRecursos = monitor.getNombresRecursos();
+        for(int i = 0;i<nombresRecursos.length; i++){
+            archivos.crear(nombresRecursos[i]);
+            archivos.escribir(nombresRecursos[i], monitor.getContenido(nombresRecursos[i]));
+        }
         admin = new AdministradorDispositivos(10);
         admin.registrar("/dev/teclado", new ControladorTeclado());
         admin.registrar("/dev/pantalla", new ControladorPantalla());
@@ -75,9 +103,9 @@ public class Kernel
         "||          -Sesion-           ||\n" +
         "||                             ||\n" +
         "||                             ||\n" +
-        "||" + opcion(sesion) + "||\n" +
+        "||  (1) Iniciar sesión         ||\n" +
+        "||  (2) Guardar usuario        ||\n" +
         "||  (s) Regresar               ||\n" +
-        "||                             ||\n" +
         "||                             ||\n" +
         "||                             ||\n" +
         "||                             ||\n" +
@@ -86,8 +114,36 @@ public class Kernel
     }
       
     private String opcion(boolean sesion){
-        if(!sesion) return "  (1) Crear usuario          ";
         return "  (1) Iniciar sesión         ";
+    }
+
+    public String pantallaUsuario(){
+        return(
+            "||=============================||\n"+
+            "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
+            "||                             ||\n" +
+            "||           -Entrar-          ||\n" +
+            "||                             ||\n" +
+            "||                             ||\n" +
+            "||  Ingresa el usuario:        ||\n" +
+            "||                             ||\n" +
+            "||                             ||\n" +
+            "||                             ||\n" +
+            "||                             ||\n" +
+            "||=============================||\n"
+        );
+    }
+
+    public boolean iniciarSesion(String usuario, String contra){
+        if(!monitor.autenticar(usuario, contra)) return false;
+        this.usuario = usuario;
+        sesion = true;
+        return true;
+    }
+
+    public void cerrarSesion(){
+        usuario = null;
+        sesion = false;
     }
 
     public String inicioSesion(){
@@ -158,12 +214,7 @@ public class Kernel
         "||  Version BIOS: 1.0.0        ||\n" +
         "||  Fecha: 06/09/2026          ||\n" +
         "||                             ||\n" +
-        "||  CPU: NomCore i9 Virtual    ||\n" +
-        "||  Nucleos: 8                ||\n" +
-        "||  RAM: 16384 MB              ||\n" +
-        "||  Almacenamiento: 512 GB SSD ||\n" +
-        "||                             ||\n" +
-        "||  Boot: Habilitado           ||\n" +
+        "||  Boot: Habilitado           ||\n" + 
         "||  Estado: OK                 ||\n" +
         "||                             ||\n" +
         "||=============================||\n" 
@@ -180,7 +231,7 @@ public class Kernel
         "||  Materia:                   ||\n" +
         "||  Sistemas Operativos        ||\n" +
         "||                             ||\n" +
-        "||  Unidad I                   ||\n" +
+        "||  Unidad VI                  ||\n" +
         "||                             ||\n" +
         "||  Equipo: Club Penguin       ||\n" +
         "||                             ||\n" +
@@ -537,6 +588,58 @@ public class Kernel
         return admin.cerrar(nombre);
     }
 
+    //Usuarios
+    private int buscarUsuario(String nombre){
+        for(int i = 0;i<cantidadUsuarios; i++){
+            if(usuarios[i].getNombre().equals(nombre)) return i;
+        }
+        return -1;
+    }
+
+    private void agregar(String nombre, String contra){
+        usuarios[cantidadUsuarios] = new Usuario(nombre, contra);
+        cantidadUsuarios++;
+    }
+
+    private void cargarUsuarios(){
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(archivoUsuarios));
+            String linea = br.readLine();
+            while(linea != null && cantidadUsuarios < MaxUsuarios){
+                String[] partes = linea.split(";");
+                if(partes.length == 2) agregar(partes[0], partes[1]);
+                linea = br.readLine();
+            }
+            br.close();
+        } catch (IOException e) {
+            cantidadUsuarios = 0;
+        }
+    }
+
+    private boolean guardarUsuarios(){
+        try {
+            FileWriter fw = new FileWriter(archivoUsuarios);
+            for(int i = 0;i<cantidadUsuarios; i++){
+                fw.write(usuarios[i].getNombre() + ";" + usuarios[i].getContra() + "\n");
+            }
+            fw.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public String guardarUsuario(String nombre, String contra){
+        if(nombre.trim().length() == 0 || contra.length() == 0) return "El usuario y la contraseña no pueden estar vacíos...";
+        if(nombre.contains(" ") || nombre.contains(";") || contra.contains(";")) return "El usuario no puede llevar espacios ni ';', y la contraseña no puede llevar ';'.";
+        if(buscarUsuario(nombre) != -1) return "El usuario " + nombre + " ya existe.";
+        if(cantidadUsuarios == MaxUsuarios) return "Ya no caben más usuarios (máximo " + MaxUsuarios + ").";
+        agregar(nombre, contra);
+        monitor.usuarioAgregado();
+        if(!guardarUsuarios()) return "Usuario " + nombre + " guardado, pero no se pudo escribir en el disco...";
+        return "Usuario " + nombre + " guardado.";
+    }
+
     //Resto
 
     public String[] getLogo(){
@@ -585,7 +688,7 @@ public class Kernel
     }
     
     //sistema de archivos
-    public String menuArchivos(){
+     public String menuArchivos(){
         return(
         "||=============================||\n"+
         "|| " + sistema.getNombre() + "               v" + sistema.getVersion() + " ||\n"+
@@ -598,33 +701,81 @@ public class Kernel
         "||  4) Eliminar                ||\n" +
         "||  5) Listar directorio       ||\n" +
         "||  6) Mapa del disco          ||\n" +
+        "||  7) Ejecutar                ||\n" +
+        "||  8) Ver permisos            ||\n" +
+        "||  9) Comando (chmod)         ||\n" +
         "||  s) Regresar                ||\n" +
         "||                             ||\n" +
         "||=============================||\n"
         );
     }
-
+   
     public String crearArchivo(String nombre){
-        return archivos.crear(nombre);
+        String respuesta = archivos.crear(nombre);
+        if(archivos.existe(nombre) && monitor.indiceRecurso(nombre) == -1){
+            monitor.registrarRecurso(nombre, usuario);
+        }
+        return respuesta;
     }
 
     public String escribirArchivo(String nombre, String texto){
+        String error = monitor.verificar(usuario, nombre, 'w');
+        if(!error.equals("")) return error;
         return archivos.escribir(nombre, texto);
     }
 
     public String leerArchivo(String nombre){
+        String error = monitor.verificar(usuario, nombre, 'r');
+        if(!error.equals("")) return error;
         return archivos.leer(nombre);
     }
 
     public String eliminarArchivo(String nombre){
-        return archivos.eliminar(nombre);
+        String error = monitor.verificar(usuario, nombre, 'w');
+        if(!error.equals("")) return error;
+        String respuesta = archivos.eliminar(nombre);
+        if(!archivos.existe(nombre)) monitor.eliminarRecurso(nombre);
+        return respuesta;
     }
 
+    public String ejecutarArchivo(String nombre){
+        String error = monitor.verificar(usuario, nombre, 'x');
+        if(!error.equals("")) return error;
+        return "Ejecutando " + nombre + "...";
+    }
+
+    public String tablaPermisos(){
+        return monitor.tabla();
+    }
+    
     public String listarArchivos(){
         return archivos.listar();
     }
 
     public String mapaDisco(){
         return archivos.mapa();
+    }
+
+    public boolean esSudo(String comando){
+        return comando.trim().startsWith("sudo ");
+    }
+
+    public String chmod(String comando, String contra){
+        String[] partes = comando.trim().split("\\s+");
+        int inicio = 0;
+        boolean sudo = false;
+        if(partes[0].equals("sudo")){
+            sudo = true;
+            inicio = 1;
+        }
+        int resto = partes.length - inicio;
+        String uso = "Comando no reconocido. Uso: [sudo] chmod <modo> <archivo> o [sudo] chmod <usuario> <rwx> <archivo>";
+        if(resto != 3 && resto != 4) return uso;
+        if(!partes[inicio].equals("chmod")) return uso;
+        if(!sudo) return "chmod: permiso denegado. Usa sudo para cambiar permisos.";
+        if(!monitor.autenticar(usuario, contra)) return "sudo: contraseña incorrecta.";
+        if(!monitor.esAdmin(usuario)) return usuario + " no está en el archivo sudoers.";
+        if(resto == 3) return monitor.chmod(partes[inicio+1], partes[inicio+2]);
+        return monitor.chmodUsuario(partes[inicio+1], partes[inicio+2], partes[inicio+3]);
     }
 }

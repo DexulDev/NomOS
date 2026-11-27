@@ -1,0 +1,11 @@
+#BlueJ class context
+#Thu Nov 26 19:08:55 CST 2026
+comment0.target=Usuario
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.params=nombre contra
+comment1.target=Usuario(java.lang.String, java.lang.String)
+comment2.target=java.lang.String getNombre()
+comment3.target=java.lang.String getContra()
+comment4.params=contra
+comment4.target=boolean validar(java.lang.String)
+numComments=5

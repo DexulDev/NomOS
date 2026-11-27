@@ -54,31 +54,40 @@ public class Main{
             terminal(k);
             switch(sc.nextLine()){
                 case "1":
-                    if(k.getSesion()){
-                        clear();
-                        System.out.println(k.inicioSesion());
-                        terminal(k);
-                        c = sc.nextLine();
-                        if (!k.validar(c)){
-                            while(!k.validar(c)){
-                                clear();
-                                System.out.print("Ups... Intenta otra vez: ");
-                                terminal(k);
-                                c = sc.nextLine();
-                            }
-                        }
+                    clear();
+                    System.out.println(k.pantallaUsuario());
+                    terminal(k);
+                    String nombre = sc.nextLine();
+                    clear();
+                    System.out.println(k.inicioSesion());
+                    terminal(k);
+                    c = sc.nextLine();
+                    if(k.iniciarSesion(nombre, c)){
                         clear();
                         iniciado(k);
+                        k.cerrarSesion();
                     }else{
                         clear();
-                        System.out.println(k.crearUsuario());
+                        System.out.println("Usuario o contraseña incorrectos...");
+                        System.out.println("Ingrese enter...");
                         terminal(k);
-                        k.setUsuario(sc.nextLine());
-                        clear();
-                        System.out.println(k.crearContra());
-                        terminal(k);
-                        k.setContra(sc.nextLine());
+                        sc.nextLine();
                     }
+                    break;
+                case "2":
+                    clear();
+                    System.out.println(k.crearUsuario());
+                    terminal(k);
+                    String nuevo = sc.nextLine();
+                    clear();
+                    System.out.println(k.crearContra());
+                    terminal(k);
+                    String clave = sc.nextLine();
+                    clear();
+                    System.out.println(k.guardarUsuario(nuevo, clave));
+                    System.out.println("Ingrese enter...");
+                    terminal(k);
+                    sc.nextLine();
                     break;
                 case "s":
                     return;
@@ -381,6 +390,25 @@ public class Main{
                     break;
                 case "6":
                     mensaje = "Mapa actualizado arriba.";
+                    break;
+                case "7":
+                    System.out.print("Nombre del archivo: ");
+                    terminal(k);
+                    mensaje = k.ejecutarArchivo(sc.nextLine());
+                    break;
+                case "8":
+                    mensaje = k.tablaPermisos();
+                    break;
+                case "9":
+                    System.out.println("Escribe el comando (ej. sudo chmod 750 notas.txt):");
+                    terminal(k);
+                    String comando = sc.nextLine();
+                    String contra = "";
+                    if(k.esSudo(comando)){
+                        System.out.print("[sudo] contraseña de " + k.getUsuario() + ": ");
+                        contra = sc.nextLine();
+                    }
+                    mensaje = k.chmod(comando, contra);
                     break;
                 default:
                     mensaje = "Opción incorrecta...";

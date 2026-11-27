@@ -1,0 +1,9 @@
+#BlueJ class context
+#Thu Nov 26 19:08:55 CST 2026
+comment0.target=Recurso
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.params=nombre contenido
+comment1.target=Recurso(java.lang.String, java.lang.String)
+comment2.target=java.lang.String getNombre()
+comment3.target=java.lang.String getContenido()
+numComments=4
