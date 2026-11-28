@@ -25,7 +25,7 @@ public class NomOS
 
     public NomOS(){
         this.nombre = "NomOS";
-        this.version = "CP.1.1";
+        this.version = "CP.6.0";
            
     }    
     

@@ -1,0 +1,13 @@
+#BlueJ class context
+#Thu Nov 26 19:48:49 CST 2026
+comment0.target=NomOS
+comment0.text=\n\n @author Club Penguin\n @version 0.1\n
+comment1.target=NomOS()
+comment2.target=java.lang.String getNombre()
+comment3.params=nombre
+comment3.target=void setNombre(java.lang.String)
+comment4.target=java.lang.String getVersion()
+comment5.params=version
+comment5.target=void setVersion(java.lang.String)
+comment6.target=java.lang.String[] getLogo()
+numComments=7
